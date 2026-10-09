@@ -4,6 +4,7 @@ from src.services.data_loader import carregar_dados, carregar_prefixos
 from src.components.sidebar import render_sidebar
 from src.components.cards import render_cards
 from src.components.charts import render_charts
+from src.components.changelog import verificar_novidades
 import urllib.parse
 
 @st.cache_resource
@@ -102,6 +103,7 @@ if df.empty:
     st.info("ℹ️ Não há registros disponíveis no momento para exibição dos indicadores. Por favor, tente novamente mais tarde.")
     st.stop()
 
+verificar_novidades()
 df_filtrado = render_sidebar(df, df_prefixos)
 render_cards(df_filtrado)
 render_charts(df_filtrado, df_prefixos)

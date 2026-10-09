@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import time
+import re
 from streamlit.components.v1 import html as st_html
 from src.utils.formatters import normalizar_str
 
@@ -254,16 +255,52 @@ def exibir_tabela_drilldown(df_tabela, incluir_slot=False, chave_prefixo="drill"
         """, unsafe_allow_html=True)
 
         if links_fotos:
-            st.markdown(f"**📸 Evidências Fotográficas ({len(links_fotos)} disponíveis):**")
-            cols_fotos = st.columns(min(len(links_fotos), 5))
-            for i, url in enumerate(links_fotos):
-                with cols_fotos[i % min(len(links_fotos), 5)]:
-                    st.link_button(
-                        f"🔗 Abrir Foto {i + 1}", 
-                        url, 
-                        use_container_width=True, 
-                        help=f"Visualizar foto {i + 1} no Google Drive"
+            total_fotos = len(links_fotos)
+            st.markdown(f"**📸 Evidências Fotográficas ({total_fotos} disponíveis):**")
+
+            def resolver_preview_drive(url_original):
+                match = re.search(r'/d/([a-zA-Z0-9_-]+)', str(url_original))
+                if match:
+                    fid = match.group(1)
+                    return f"https://drive.google.com/file/d/{fid}/preview"
+                match_id = re.search(r'id=([a-zA-Z0-9_-]+)', str(url_original))
+                if match_id:
+                    fid = match_id.group(1)
+                    return f"https://drive.google.com/file/d/{fid}/preview"
+                return url_original
+
+            if total_fotos == 1:
+                url_unica = links_fotos[0]
+                preview_url = resolver_preview_drive(url_unica)
+                col_img, col_btn = st.columns([7, 3])
+                with col_img:
+                    st.markdown(
+                        f"""<div style="background: rgba(0,0,0,0.1); border: 1px solid rgba(128,128,128,0.2); 
+                                        border-radius: 8px; padding: 4px;">
+                                <iframe src="{preview_url}" width="100%" height="420" style="border: none; border-radius: 6px;"></iframe>
+                            </div>""",
+                        unsafe_allow_html=True
                     )
+                with col_btn:
+                    st.caption("Evidência anexada ao apontamento.")
+                    st.link_button("🔗 Abrir no Drive", url_unica, width="stretch", help="Abrir em nova aba")
+            else:
+                abas_fotos = st.tabs([f"Foto {i + 1}" for i in range(total_fotos)])
+                for i, url_foto in enumerate(links_fotos):
+                    with abas_fotos[i]:
+                        preview_url = resolver_preview_drive(url_foto)
+                        col_img, col_btn = st.columns([7.5, 2.5])
+                        with col_img:
+                            st.markdown(
+                                f"""<div style="background: rgba(0,0,0,0.1); border: 1px solid rgba(128,128,128,0.2); 
+                                                border-radius: 8px; padding: 4px; margin-top: 6px;">
+                                        <iframe src="{preview_url}" width="100%" height="420" style="border: none; border-radius: 6px;"></iframe>
+                                    </div>""",
+                                unsafe_allow_html=True
+                            )
+                        with col_btn:
+                            st.markdown(f"**Evidência {i + 1} de {total_fotos}**")
+                            st.link_button(f"🔗 Abrir Foto {i + 1} no Drive", url_foto, width="stretch", help="Abrir em tamanho original")
         else:
             st.caption("ℹ️ Nenhuma evidência fotográfica foi anexada a este apontamento.")
 

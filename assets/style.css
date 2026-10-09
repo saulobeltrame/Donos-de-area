@@ -272,10 +272,6 @@ div[data-testid="InputInstructions"] {
     display: none !important;
 }
 
-div[data-baseweb="popover"] ul[role="menu"] li:nth-child(4) {
-    display: none !important;
-}
-
 footer {
     display: none !important;
 }

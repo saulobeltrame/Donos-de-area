@@ -2,7 +2,6 @@ import streamlit as st
 
 VERSAO_ATUAL = "1.1.0"
 
-
 @st.dialog("✈️ Novidades do Dashboard Donos de Área")
 def modal_novidades():
     st.markdown("""

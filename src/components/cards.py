@@ -57,6 +57,6 @@ def render_cards(df_filtrado):
     with c3:
         st.metric("Taxa de Conformidade", f"{taxa_conformidade:.1f}%", help="Porcentagem de itens avaliados como 'Conforme' em relação ao total de avaliações (Conformes + Não Conformes).")
     with c4:
-        st.metric("Tempo Médio", tempo_formatado, help="Tempo médio que a liderança tem levado para preencher a inspeção no aplicativo.")
+        st.metric("Tempo Médio", tempo_formatado, help="Tempo médio que a liderança tem levado para preencher a inspeção no aplicativo (Apenas Completas).")
 
     st.markdown('<hr style="margin-top: 15px; margin-bottom: 20px; border-color: rgba(128, 128, 128, 0.2);">', unsafe_allow_html=True)

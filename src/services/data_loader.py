@@ -28,7 +28,7 @@ def obter_cliente_gspread():
         "Certifique-se de que o arquivo 'credenciais.json' está na raiz do projeto."
     )
 
-@st.cache_data(ttl=300, show_spinner="Sincronizando dados com a base MRO...")
+@st.cache_data(ttl=300, show_spinner="Sincronizando...")
 def carregar_dados(url_planilha):
     try:
         gc = obter_cliente_gspread()
