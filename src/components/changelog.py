@@ -12,11 +12,17 @@ def modal_novidades():
     """)
     
     st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("Entendido / Acessar Dashboard", type="primary", use_container_width=True):
+    if st.button("Entendido / Acessar Dashboard", type="primary", width="stretch"):
         st.session_state["versao_novidades_vista"] = VERSAO_ATUAL
+        st.query_params["v"] = VERSAO_ATUAL
         st.rerun()
 
 
 def verificar_novidades():
-    if st.session_state.get("versao_novidades_vista") != VERSAO_ATUAL:
-        modal_novidades()
+    """Verifica se o usuário já visualizou o changelog da versão atual via URL ou sessão."""
+    if st.query_params.get("v") == VERSAO_ATUAL or st.session_state.get("versao_novidades_vista") == VERSAO_ATUAL:
+        return
+
+    st.session_state["versao_novidades_vista"] = VERSAO_ATUAL
+    st.query_params["v"] = VERSAO_ATUAL
+    modal_novidades()
