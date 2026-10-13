@@ -32,17 +32,6 @@ CORPO_EMAIL = (
     "Atenciosamente,"
 )
 
-EMAIL_DESTINO = "saulo.junior@latam.com"
-ASSUNTO_EMAIL = "[MRO - Donos de Área] Reporte de Inconsistência / Bug"
-CORPO_EMAIL = (
-    "Olá,\n\n"
-    "Identifiquei uma inconsistência no Dashboard de Donos de Área:\n"
-    "- Aeronave / Linha: \n"
-    "- Data do apontamento: \n"
-    "- Descrição do problema: \n\n"
-    "Atenciosamente,"
-)
-
 params_gmail = urllib.parse.urlencode({
     "view": "cm",
     "fs": "1",

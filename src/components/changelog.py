@@ -19,7 +19,6 @@ def modal_novidades():
 
 
 def verificar_novidades():
-    """Verifica se o usuário já visualizou o changelog da versão atual via URL ou sessão."""
     if st.query_params.get("v") == VERSAO_ATUAL or st.session_state.get("versao_novidades_vista") == VERSAO_ATUAL:
         return
 
